@@ -756,8 +756,8 @@ if "%GITHUB_WORKFLOW%" neq "" (
   :dateok
   set OUTPUT_DATE=%LDATE:~0,4%-%LDATE:~4,2%-%LDATE:~6,2%
 
-  echo Creating %OUTPUT%.zip
-  %SZIP% a -y -r -mx=9 "-x^!build" SDL3-!OUTPUT_DATE!.zip SDL3 || exit /b 1
+  echo Creating %OUTPUT%.tar.gz
+  %SZIP% a -ttar -so -an "-x^!build" SDL3 || exit /b 1 | %SZIP% a -si SDL3-!OUTPUT_DATE!.tar.gz || exit /b 1
 
   echo ::set-output name=OUTPUT_DATE::!OUTPUT_DATE!
 
