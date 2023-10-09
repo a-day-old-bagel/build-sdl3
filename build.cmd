@@ -751,24 +751,22 @@ rem GitHub actions stuff
 rem
 
 if "%GITHUB_WORKFLOW%" neq "" (
-  setlocal enabledelayedexpansion
 
   for /F "skip=1" %%D in ('WMIC OS GET LocalDateTime') do (set LDATE=%%D & goto :dateok)
   :dateok
-  set OUTPUT_DATE=!LDATE:~0,4!-!LDATE:~4,2!-!LDATE:~6,2!
+  set OUTPUT_DATE=%LDATE:~0,4%-%LDATE:~4,2%-%LDATE:~6,2%
 
-  echo Creating SDL3-!OUTPUT_DATE!.tar.gz
-  %SZIP% a -ttar -so -an "-x^!build" SDL3 || exit /b 1 | %SZIP% a -si SDL3-!OUTPUT_DATE!.tar.gz || exit /b 1
+  echo Creating SDL3.tar.gz
+  %SZIP% a -ttar -so -an "-x^!build" SDL3 || exit /b 1 | %SZIP% a -si SDL3.tar.gz || exit /b 1
 
   echo ::set-output name=OUTPUT_DATE::!OUTPUT_DATE!
 
-  echo ::set-output name=SDL_COMMIT::!SDL_COMMIT!
-  echo ::set-output name=SDL_IMAGE_COMMIT::!SDL_IMAGE_COMMIT!
-  echo ::set-output name=SDL_MIXER_COMMIT::!SDL_MIXER_COMMIT!
-  echo ::set-output name=SDL_TTF_COMMIT::!SDL_TTF_COMMIT!
-  echo ::set-output name=SDL_RTF_COMMIT::!SDL_RTF_COMMIT!
-  echo ::set-output name=SDL_NET_COMMIT::!SDL_NET_COMMIT!
-  endlocal
+  echo ::set-output name=SDL_COMMIT::%SDL_COMMIT%
+  echo ::set-output name=SDL_IMAGE_COMMIT::%SDL_IMAGE_COMMIT%
+  echo ::set-output name=SDL_MIXER_COMMIT::%SDL_MIXER_COMMIT%
+  echo ::set-output name=SDL_TTF_COMMIT::%SDL_TTF_COMMIT%
+  echo ::set-output name=SDL_RTF_COMMIT::%SDL_RTF_COMMIT%
+  echo ::set-output name=SDL_NET_COMMIT::%SDL_NET_COMMIT%
 )
 
 rem
